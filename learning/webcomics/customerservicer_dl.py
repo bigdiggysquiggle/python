@@ -14,6 +14,12 @@
 #so that one entry is completely lost to time unless it can
 #somehow magically resurface
 
+#I'm rethinking my approach currently so I can make the script
+#run start to finish, grabbing every possible update in one go
+
+#filter through https://web.archive.org/web/*/http://www.customerservicer.net/*
+#some day to search for the one missing update
+
 from bs4 import BeautifulSoup
 import requests
 
