@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+
+#google blocked me from this so imma have to play with it more later
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+
+#TODO: move user variables to config
+chromedriver = '/home/dromansk/builds/chromedriver/pkg/chromedriver/usr/bin/chromedriver' 
+username = #user will be moved to a non-tracked file
+password = #password will be moved to a non-tracked file
+#appropriate methods will be implemented for aquiring the
+#above variables
+
+driver = webdriver.Chrome(chromedriver)
+driver.get("https://calendar.google.com")
+driver.find_element(By.XPATH, '//*[@id="identifierId"]').send_keys(username)
+driver.find_element(By.XPATH, '//*[@id="identifierNext"]/div/button').click()
+driver.find_element(By.XPATH, '//*[@id="password"]/div[1]/div/div[1]/input').send_keys(password)
+driver.find_element(By.XPATH, '//*[@id="passwordNext"]/div/button').click()

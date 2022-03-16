@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+
+import sys, time
+
+increasing = True
+indent = 0
+while True:
+    try:
+        print(' ' * indent, end='')
+        print('*******')
+        time.sleep(0.1)
+        if (increasing == True):
+            indent += 1
+        elif (increasing == False):
+            indent -= 1
+        if (indent == 6) and (increasing == True):
+            increasing = False
+        elif (indent == 0) and (increasing == False):
+            increasing = True
+    except KeyboardInterrupt:
+        sys.exit()

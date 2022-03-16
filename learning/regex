@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+
+import re
+
+phoneNumRegex = re.compile(r'\d\d\d-\d\d\d-\d\d\d\d')
+mo = phoneNumRegex.search('My number is 415-555-4242.')
+print('Phone number found: ' + mo.group())
+
+# . ^ $ * + ? { } [ ] \ | ( ) are special characters
+
+# . is a wildcard. can be literally anything except newline
+# ^ marks match must start from the beginning
+# $ marks how the string has to end
+# * "match 0 or more" of the preceding group
+# + "match 1 or more" of the preceding group
+# ? marks a group as "optional". for example 'Bat(wo)?man'
+# {} match x number of repetitions ex (ha){3} for "hahaha"
+#	if given a range, {3, 5}, "hahaha" "hahahaha" "hahahahaha"
+#	use {}? to make matching nongreedy, matching the minimum
+#	possible
+# {n, } matches at least n
+# {, m} matches at most m
+# [] is used to make character classes. list all patterns you
+#	want to match. ex [0-5], ['a', 'b', 'c']
+#	use ^ to invert the above, ex [^0-5]
+# \ is
+# | is an OR. Regex will match either side of this
+# () is
+
+# must all be \ if you want to get their actual characters in 
+# your regex
+
+# \d any numeric character 0-9
+# \D any character that's not 0-9
+# \w any numeric, aphabetic, or underscore character
+# \W any character that's not in \w
+# \s any space, tab, newline
+# \S anything not a space, tab, or newline

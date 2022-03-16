@@ -1,0 +1,10 @@
+#!/usr/bin/env python3
+
+import sys
+
+print('type exit to exit')
+while True:
+    test = input()
+    if (test == 'exit'):
+        sys.exit()
+    print('lol')
