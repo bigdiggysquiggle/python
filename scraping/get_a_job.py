@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+#designed to be a wrapper for job-scraping scripts as I
+#complete new scripts
+
 import os
 import linkedin
 
