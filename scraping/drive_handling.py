@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 
+#this is the home for functions that interact directly with
+#my google drive
+
+#drive_setup connects to and authenticates with my drive
+
+#drive_fill uploads the results from my webscrapers into
+#their properly organized folders
+
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow

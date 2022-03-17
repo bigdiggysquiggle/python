@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 #designed to be a wrapper for job-scraping scripts as I
-#complete new scripts
+#complete new scripts. all results are currently saved in a
+#hardcoded location on my machine and are then uploaded to
+#a directory on my google drive so I have both a local copy
+#and a copy I can access from any machine
 
 import os
 from google.auth.transport.requests import Request
@@ -16,16 +19,13 @@ from datetime import date
 SCOPES = ['https://www.googleapis.com/auth/drive']
 start_dir = '/home/dromansk/projects/Python/scraping/'
 
-
 #create our output directories if they don't exist
 os.chdir(start_dir)
 drive = drive_handling.drive_setup(SCOPES)
-drive_dir = drive.files().list(q='name = "job descriptions"').execute()
 if os.path.exists('output') == False:
 	os.mkdir('output')
 os.chdir('output')
 if os.path.exists('linkedin') == False:
 	os.mkdir('linkedin')
-#linkedin.crawl_linkedin()
-os.chdir(start_dir + '/output/linkedin/' + str(date.today()))
-drive_handling.drive_fill(drive_dir, drive)
+linkedin.crawl_linkedin()
+drive_handling.drive_fill(drive.files().list(q='name = "linkedin"').execute(), drive)
