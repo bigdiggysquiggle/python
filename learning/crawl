@@ -1,17 +1,26 @@
 #!/usr/bin/env python3
 
-#google blocked me from this so imma have to play with it more later
+#this has been deprecated in favour of the scripts in my
+#scraping directory, however I am choosing to keep this here
+#as a reference for when I do other projects using selenium
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+import shelve
+import getpass
 
-#TODO: move user variables to config
-chromedriver = '/home/dromansk/builds/chromedriver/pkg/chromedriver/usr/bin/chromedriver' 
-username = #user will be moved to a non-tracked file
-password = #password will be moved to a non-tracked file
-#appropriate methods will be implemented for aquiring the
-#above variables
+account = shelve.open('g_drive.dat', 'c')
+if 'chromedriver' not in account:
+	account['chromedriver'] = '/home/dromansk/builds/chromedriver/pkg/chromedriver/usr/bin/chromedriver' 
+if 'username' not in account:
+	print("enter gmail address:")
+	account['username'] = input()
+if 'password' not in account:
+	account['password'] = getpass.getpass('enter password:')
+chromedriver = account['chromedriver']
+username = account['username']
+password = account['password']
 
 driver = webdriver.Chrome(chromedriver)
 driver.get("https://calendar.google.com")
