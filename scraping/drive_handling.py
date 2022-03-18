@@ -16,6 +16,7 @@ from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
 from datetime import date
 import os
+import re
 
 def drive_setup(SCOPES):
 	if not SCOPES:
@@ -39,6 +40,8 @@ def drive_fill(DRIVE_DIR, DRIVE):
 	DEST = DRIVE.files().create(body=DEST_META, fields="id").execute()
 	ID = DEST.get('id')
 	for file in os.listdir():
+		if not re.match(r'.*\.txt$', file):
+			continue
 		print('upload: ' + file)
 		META = {"name": file, "parents": [ID]}
 		DATA = MediaFileUpload(file)

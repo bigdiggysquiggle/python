@@ -28,4 +28,5 @@ os.chdir('output')
 if os.path.exists('linkedin') == False:
 	os.mkdir('linkedin')
 linkedin.crawl_linkedin()
+#os.chdir('linkedin/2022-03-17')
 drive_handling.drive_fill(drive.files().list(q='name = "linkedin"').execute(), drive)
