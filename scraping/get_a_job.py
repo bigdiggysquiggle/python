@@ -21,7 +21,7 @@ start_dir = '/home/dromansk/projects/Python/scraping/'
 
 #create our output directories if they don't exist
 os.chdir(start_dir)
-drive = drive_handling.drive_setup(SCOPES)
+drive = drive_handling.drive_setup(SCOPES, start_dir)
 if os.path.exists('output') == False:
 	os.mkdir('output')
 os.chdir('output')
