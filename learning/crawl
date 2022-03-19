@@ -1,30 +1,25 @@
 #!/usr/bin/env python3
 
-#this has been deprecated in favour of the scripts in my
-#scraping directory, however I am choosing to keep this here
-#as a reference for when I do other projects using selenium
+#google blocked me from this so imma have to play with it more later
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-import shelve
-import getpass
+from selenium.webdriver.chrome.options import Options
 
-account = shelve.open('g_drive.dat', 'c')
-if 'chromedriver' not in account:
-	account['chromedriver'] = '/home/dromansk/builds/chromedriver/pkg/chromedriver/usr/bin/chromedriver' 
-if 'username' not in account:
-	print("enter gmail address:")
-	account['username'] = input()
-if 'password' not in account:
-	account['password'] = getpass.getpass('enter password:')
-chromedriver = account['chromedriver']
+chromedriver = '/home/dromansk/builds/chromedriver/pkg/chromedriver/usr/bin/chromedriver' 
 username = account['username']
 password = account['password']
 
-driver = webdriver.Chrome(chromedriver)
-driver.get("https://calendar.google.com")
-driver.find_element(By.XPATH, '//*[@id="identifierId"]').send_keys(username)
-driver.find_element(By.XPATH, '//*[@id="identifierNext"]/div/button').click()
-driver.find_element(By.XPATH, '//*[@id="password"]/div[1]/div/div[1]/input').send_keys(password)
-driver.find_element(By.XPATH, '//*[@id="passwordNext"]/div/button').click()
+options = Options()
+options.add_experimental_option("excludeSwitches", ['enable-automation'])
+options.add_experimental_option("useAutomationExtension", [False])
+options.add_argument('--user-data-dir=/home/dromansk/.config/google-chrome/')
+driver = webdriver.Chrome(chromedriver, options=options)
+driver.get("https://drive.google.com")
+#driver.find_element(By.XPATH, '//*[@id="identifierId"]').send_keys(username)
+#driver.find_element(By.XPATH, '//*[@id="identifierNext"]/div/button').click()
+#driver.find_element(By.XPATH, '//*[@id="password"]/div[1]/div/div[1]/input').send_keys(password)
+#driver.find_element(By.XPATH, '//*[@id="passwordNext"]/div/button').click()
+#print(driver.capabilities)
+#driver.quit()

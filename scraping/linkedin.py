@@ -29,6 +29,7 @@ def get_job(link, i):
 	filename = str(i).zfill(2) + ' ' + title[0].string + ".txt"
 	filename = filename.replace('/', ' -or- ')
 	print("creating: " + filename)
+#consider changing to 'with' statement
 	file = open(filename, 'w')
 	file.write(link + '\n\n')
 	for string in desc.stripped_strings:
@@ -60,4 +61,5 @@ def crawl_linkedin():
 		for link in listing.find_elements(By.CLASS_NAME, 'base-card__full-link'):
 			get_job(link.get_attribute('href'), i)
 			i += 1
+	os.chdir('/tmp/')
 	driver.quit()
