@@ -29,12 +29,10 @@ def get_job(link, i):
 	filename = str(i).zfill(2) + ' ' + title[0].string + ".txt"
 	filename = filename.replace('/', ' -or- ')
 	print("creating: " + filename)
-#consider changing to 'with' statement
-	file = open(filename, 'w')
-	file.write(link + '\n\n')
-	for string in desc.stripped_strings:
-		file.write(string + '\n')
-	file.close
+	with open(filename, 'w') as file:
+		file.write(link + '\n\n')
+		for string in desc.stripped_strings:
+			file.write(string + '\n')
 
 #currently my search is a hardcoded url that already
 #contains all the options I personally want to search for.
@@ -52,7 +50,9 @@ def crawl_linkedin():
 
 	options = Options()
 	options.headless = True
-	driver = webdriver.Firefox(options=options)
+#service_log_path has been depracted. I'll need to rewrite
+#the below soon
+	driver = webdriver.Firefox(options=options, service_log_path='/dev/null')
 	driver.get("https://www.linkedin.com/jobs/search/?f_E=1%2C2&f_JT=F%2CP%2CI&f_TPR=r86400&geoId=102095887&keywords=sre&location=California%2C%20United%20States&sortBy=DD")
 	res_list = driver.find_element(By.XPATH, "/html/body/div[1]/div/main/section[2]/ul")
 	listings = driver.find_elements(By.TAG_NAME, 'li')
@@ -63,3 +63,6 @@ def crawl_linkedin():
 			i += 1
 	os.chdir('/tmp/')
 	driver.quit()
+
+if __name__ == '__main__':
+	crawl_linkedin()
