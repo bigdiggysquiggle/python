@@ -17,7 +17,7 @@ import drive_handling
 from datetime import date
 
 SCOPE = ['https://www.googleapis.com/auth/drive']
-start_dir = '/home/dromansk/projects/Python/scraping/'
+start_dir = os.path.expandvars('$HOME/projects/Python/scraping/')
 
 #create our output directories if they don't exist
 os.chdir(start_dir)

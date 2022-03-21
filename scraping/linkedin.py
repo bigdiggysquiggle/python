@@ -18,7 +18,7 @@ import re
 #TODO: make this script take the desired destination as an
 #argument
 
-start_dir = '/home/dromansk/projects/Python/scraping/output/linkedin'
+start_dir = os.path.expandvars('$HOME/projects/Python/scraping/output/linkedin')
 
 def get_job(link, i):
 	desc = BeautifulSoup(requests.get(link).text, 'html.parser')
