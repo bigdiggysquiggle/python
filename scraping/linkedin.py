@@ -52,16 +52,18 @@ def crawl_linkedin():
 	options.headless = True
 #service_log_path has been depracted. I'll need to rewrite
 #the below soon
+	print('starting browser')
 	driver = webdriver.Firefox(options=options, service_log_path='/dev/null')
 	driver.get("https://www.linkedin.com/jobs/search/?f_E=1%2C2&f_JT=F%2CP%2CI&f_TPR=r86400&geoId=102095887&keywords=sre&location=California%2C%20United%20States&sortBy=DD")
+	print('got page')
 	res_list = driver.find_element(By.XPATH, "/html/body/div[1]/div/main/section[2]/ul")
 	listings = driver.find_elements(By.TAG_NAME, 'li')
+	print('got listings')
 	i = 1
 	for listing in listings:
 		for link in listing.find_elements(By.CLASS_NAME, 'base-card__full-link'):
 			get_job(link.get_attribute('href'), i)
 			i += 1
-	os.chdir('/tmp/')
 	driver.quit()
 
 if __name__ == '__main__':
