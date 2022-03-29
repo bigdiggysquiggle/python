@@ -13,12 +13,20 @@ def user_input():
 	return input().split(' ')
 caps = DesiredCapabilities.CHROME
 caps["pageLoadStrategy"] = "none"
-driver = chrome_start.chrome_start(caps)
+try:
+	driver = chrome_start.chrome_start(caps)
+except:
+	print("Please close other browser windows and try again")
+	#until I figure out how to implement connecting to an
+	#active browser session, exiting and trying again is the
+	#best solution I have
+	exit()
 if (len(sys.argv) < 2):
 	file_set = user_input()
 else:
 	file_set = sys.argv[1:]
 for file in file_set:
+	print("Opening: " + file)
 	driver.switch_to.new_window('tab')
 	with open(file, 'r') as link:
 		driver.get(link.readline())

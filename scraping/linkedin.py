@@ -52,7 +52,7 @@ def crawl_linkedin():
 	options.headless = True
 #service_log_path has been depracted. I'll need to rewrite
 #the below soon
-	print('starting browser')
+	print('starting selenium driver')
 	driver = webdriver.Firefox(options=options, service_log_path='/dev/null')
 	driver.get("https://www.linkedin.com/jobs/search/?f_E=1%2C2&f_JT=F%2CP%2CI&f_TPR=r86400&geoId=102095887&keywords=sre&location=California%2C%20United%20States&sortBy=DD")
 	print('got page')
