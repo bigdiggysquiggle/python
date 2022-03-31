@@ -23,8 +23,12 @@ start_dir = os.path.expandvars('$HOME/projects/Python/scraping/output/linkedin')
 def get_job(link, i):
 	desc = BeautifulSoup(requests.get(link).text, 'html.parser')
 	title = desc.select("#main-content > section.core-rail > div > section.top-card-layout > div > div.top-card-layout__entity-info-container > div > h1")
-	if (not title):
+	if not title:
 		title = desc.select("body > div.application-outlet > div.authentication-outlet > div > div.job-view-layout.jobs-details > div.grid > div > div:nth-child(1) > div > div.p5 > h1")
+	if not title or not title[0]:
+		print("Failed to get title of '" + link + "'... retrying")
+		get_job(link, i)
+		return
 	desc = desc.find('div', class_='show-more-less-html__markup')
 	filename = str(i).zfill(2) + ' ' + title[0].string + ".txt"
 	filename = filename.replace('/', ' -or- ')
