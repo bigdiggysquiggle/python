@@ -20,6 +20,38 @@ import re
 
 start_dir = os.path.expandvars('$HOME/projects/Python/scraping/output/linkedin')
 
+def str_gen(dic, arg, st):
+	nstr = st + str(dic[arg[0]])
+	for each in arg[1:]:
+		nstr = nstr + "%2C" + st + str(dic[each])
+	print(nstr)
+	return nstr
+
+def gen_url(args):
+	exp={"internship": 1, "entry level": 2, "associate": 3, "mid senior level": 4, "director": 5, "executive": 6}
+	jt={"full-time": 'F', "part-time": 'P', "contract": 'C', "temp": 'T', "internship": 'I', "other": 'O'}
+	wt={"on-site": 1, "remote": 2, "hybrid": 3}
+	dp={"day": "r86400", "week": "r604800", "month": "r2592000"}
+	urlstr = "?"
+	strtab = []
+	if args["experience"]:
+		strtab.append(str_gen(exp, args["experience"], "f_E="))
+	if args["type"]:
+		strtab.append(str_gen(jt, args["type"], "f_JT="))
+	if args["workplace"]:
+		strtab.append(str_gen(wt, args["workplace"], "f_WT="))
+	strtab.append("f_TPR=" + dp[args["date_posted"]])
+	nstr="keywords=" + args["keywords"][0]
+	for each in args["keywords"][1:]:
+		nstr=nstr + "%20" + each
+	strtab.append(nstr)
+	nstr=args["location"]
+	strtab.append("location=" + nstr.replace(' ', '%20').replace(',', '%2C'))
+	nstr="https://www.linkedin.com/jobs/search/?" + strtab[0]
+	for each in strtab[1:]:
+		nstr=nstr + "&" + each
+	return nstr
+
 def get_job(link, i):
 	desc = BeautifulSoup(requests.get(link).text, 'html.parser')
 	title = desc.select("#main-content > section.core-rail > div > section.top-card-layout > div > div.top-card-layout__entity-info-container > div > h1")
@@ -44,7 +76,8 @@ def get_job(link, i):
 #more generic where the end user can input their own search
 #parameters and have the function scrape from those results
 
-def crawl_linkedin():
+def crawl_linkedin(url="https://www.linkedin.com/jobs/search/?f_E=1%2C2&f_JT=F%2CP%2CI&f_TPR=r86400&geoId=102095887&keywords=sre&location=California%2C%20United%20States&sortBy=DD"):
+	print(url)
 	os.chdir(start_dir)
 	today = str(date.today())
 	#create the output directory for our results
@@ -58,7 +91,7 @@ def crawl_linkedin():
 #the below soon
 	print('starting selenium driver')
 	driver = webdriver.Firefox(options=options, service_log_path='/dev/null')
-	driver.get("https://www.linkedin.com/jobs/search/?f_E=1%2C2&f_JT=F%2CP%2CI&f_TPR=r86400&geoId=102095887&keywords=sre&location=California%2C%20United%20States&sortBy=DD")
+	driver.get(url)
 	print('got page')
 	res_list = driver.find_element(By.XPATH, "/html/body/div[1]/div/main/section[2]/ul")
 	listings = driver.find_elements(By.TAG_NAME, 'li')
