@@ -24,7 +24,6 @@ def str_gen(dic, arg, st):
 	nstr = st + str(dic[arg[0]])
 	for each in arg[1:]:
 		nstr = nstr + "%2C" + st + str(dic[each])
-	print(nstr)
 	return nstr
 
 def gen_url(args):
