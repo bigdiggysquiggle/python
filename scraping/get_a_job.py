@@ -33,11 +33,10 @@ SCOPE = ['https://www.googleapis.com/auth/drive']
 start_dir = os.path.expandvars('$HOME/jobhunt/')
 
 #parse our command line arguments to make our lives easier
-args=arg_parser()
-print(vars(args))
+args=vars(arg_parser())
+print(args)
 
 #create our output directories if they don't exist
-#TODO: use input data from the argument parser to determine names of directories to make
 os.chdir(start_dir)
 drive = drive_handling.drive_setup(SCOPES=SCOPE, token_dir=start_dir)
 if os.path.exists('output') == False:
@@ -45,7 +44,10 @@ if os.path.exists('output') == False:
 os.chdir('output')
 if os.path.exists('linkedin') == False:
 	os.mkdir('linkedin')
-linkedin.crawl_linkedin(linkedin.gen_url(vars(args)))
-if vars(args)['no_upload'] == False:
-    os.chdir(start_dir + 'output/linkedin/' + str(date.today()))
-    drive_handling.drive_fill(drive.files().list(q='name = "linkedin"').execute(), drive)
+
+#scrape for our listings, upload them to GDrive if desired
+subdir=args['location'].split(',')[0]
+linkedin.crawl_linkedin(linkedin.gen_url(args), subdir)
+if args['no_upload'] == False:
+    os.chdir(start_dir + 'output/linkedin/' + subdir + '/' + str(date.today()))
+    drive_handling.drive_fill(drive.files().list(q='name = "linkedin"').execute(), drive, SUBDIR=subdir)

@@ -13,10 +13,8 @@ import re
 #TODO: only save results if they've been posted since the
 #last time I scraped
 #---implemented temp workaround. url now only gets results
-#	from the last 24 hours
-
-#TODO: make this script take the desired destination as an
-#argument
+#	from whatever time frame I've specified. Default is 24
+#	hours
 
 start_dir = os.path.expandvars('$HOME/projects/Python/scraping/output/linkedin')
 
@@ -69,15 +67,15 @@ def get_job(link, i):
 		for string in desc.stripped_strings:
 			file.write(string + '\n')
 
-#currently my search is a hardcoded url that already
-#contains all the options I personally want to search for.
-#in the future I will be making this function into something
-#more generic where the end user can input their own search
-#parameters and have the function scrape from those results
-
-def crawl_linkedin(url="https://www.linkedin.com/jobs/search/?f_E=1%2C2&f_JT=F%2CP%2CI&f_TPR=r86400&geoId=102095887&keywords=sre&location=California%2C%20United%20States&sortBy=DD"):
+#this function has a hardcoded default url in the event
+#that it's invoked directly instead of through get_a_job.py
+def crawl_linkedin(url="https://www.linkedin.com/jobs/search/?f_E=1%2C2&f_JT=F%2CP%2CI&f_TPR=r86400&geoId=102095887&keywords=sre&location=California%2C%20United%20States&sortBy=DD", sub='California'):
 	print(url)
+	print(sub)
 	os.chdir(start_dir)
+	if os.path.exists(sub) == False:
+		os.mkdir(sub)
+	os.chdir(sub)
 	today = str(date.today())
 	#create the output directory for our results
 	if os.path.exists(today) == False:
