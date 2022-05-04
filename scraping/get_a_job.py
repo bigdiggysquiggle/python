@@ -7,19 +7,36 @@
 #and a copy I can access from any machine
 
 import os
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
+import argparse
 import linkedin
 import drive_handling
 from datetime import date
+from googleapiclient.errors import HttpError
+from googleapiclient.discovery import build
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+
+def arg_parser():
+	parser = argparse.ArgumentParser()
+	parser.add_argument('--experience', '-e', action='append', choices=['internship', 'entry level', 'associate', 'mid senior level', 'director', 'executive'], help='argument must be quoted')
+	parser.add_argument('--type', '-t', action='append', choices=['full-time', 'part-time', 'contract', 'temp', 'internship', 'other'])
+	parser.add_argument('--workplace', '-w', action='append', choices=['on-site', 'remote', 'hybrid'])
+	parser.add_argument('--date-posted', '-d', default='day', choices=['day', 'week', 'month'])
+	parser.add_argument('--location', '-l', default='California, United States', help='argument must be quoted')
+	parser.add_argument('--sort', '-s', action='store_true')
+	parser.add_argument('keywords', metavar='kwargs', nargs='+')
+	return parser.parse_args()
 
 SCOPE = ['https://www.googleapis.com/auth/drive']
-start_dir = os.path.expandvars('$HOME/projects/Python/scraping/')
+start_dir = os.path.expandvars('$HOME/jobhunt/')
+
+#parse our command line arguments to make our lives easier
+args=arg_parser()
+print(vars(args))
 
 #create our output directories if they don't exist
+#TODO: use input data from the argument parser to determine names of directories to make
 os.chdir(start_dir)
 drive = drive_handling.drive_setup(SCOPES=SCOPE, token_dir=start_dir)
 if os.path.exists('output') == False:
@@ -27,6 +44,6 @@ if os.path.exists('output') == False:
 os.chdir('output')
 if os.path.exists('linkedin') == False:
 	os.mkdir('linkedin')
-linkedin.crawl_linkedin()
-os.chdir(start_dir + 'output/linkedin/' + str(date.today()))
-drive_handling.drive_fill(drive.files().list(q='name = "linkedin"').execute(), drive)
+linkedin.crawl_linkedin(linkedin.gen_url(vars(args)))
+#os.chdir(start_dir + 'output/linkedin/' + str(date.today()))
+#drive_handling.drive_fill(drive.files().list(q='name = "linkedin"').execute(), drive)
