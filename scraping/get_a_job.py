@@ -25,6 +25,7 @@ def arg_parser():
 	parser.add_argument('--date-posted', '-d', default='day', choices=['day', 'week', 'month'])
 	parser.add_argument('--location', '-l', default='California, United States', help='argument must be quoted')
 	parser.add_argument('--sort', '-s', action='store_true')
+	parser.add_argument('--no-upload', '-u', action='store_true')
 	parser.add_argument('keywords', metavar='kwargs', nargs='+')
 	return parser.parse_args()
 
@@ -45,5 +46,6 @@ os.chdir('output')
 if os.path.exists('linkedin') == False:
 	os.mkdir('linkedin')
 linkedin.crawl_linkedin(linkedin.gen_url(vars(args)))
-os.chdir(start_dir + 'output/linkedin/' + str(date.today()))
-drive_handling.drive_fill(drive.files().list(q='name = "linkedin"').execute(), drive)
+if vars(args)['no_upload'] == False:
+    os.chdir(start_dir + 'output/linkedin/' + str(date.today()))
+    drive_handling.drive_fill(drive.files().list(q='name = "linkedin"').execute(), drive)
