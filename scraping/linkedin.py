@@ -21,7 +21,7 @@ start_dir = os.path.expandvars('$HOME/projects/Python/scraping/output/linkedin')
 def str_gen(dic, arg, st):
 	nstr = st + str(dic[arg[0]])
 	for each in arg[1:]:
-		nstr = nstr + "%2C" + st + str(dic[each])
+		nstr = nstr + "%2C" + str(dic[each])
 	return nstr
 
 def gen_url(args):
