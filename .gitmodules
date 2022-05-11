@@ -1,0 +1,3 @@
+[submodule "scraping"]
+	path = scraping
+	url = git@github.com:bigdiggysquiggle/get-a-job.git
