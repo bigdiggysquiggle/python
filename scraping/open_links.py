@@ -11,6 +11,7 @@ import sys
 def user_input():
 	print('Filenames:')
 	return input().split(' ')
+
 caps = DesiredCapabilities.CHROME
 caps["pageLoadStrategy"] = "none"
 try:
@@ -18,7 +19,8 @@ try:
 except:
 	print("Please close other browser windows and try again")
 	#until I figure out how to implement connecting to an
-	#active browser session, exiting and trying again is the
+	#active browser session, exiting and making the user close
+    #their browser and run the script againagain is the
 	#best solution I have
 	exit()
 if (len(sys.argv) < 2):
