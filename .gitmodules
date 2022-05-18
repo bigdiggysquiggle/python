@@ -1,3 +1,6 @@
 [submodule "scraping"]
 	path = scraping
 	url = git@github.com:bigdiggysquiggle/get-a-job.git
+[submodule "learning/webcomics/berserk"]
+	path = learning/webcomics/berserk
+	url = git@github.com:bigdiggysquiggle/berserk-webscraper.git
