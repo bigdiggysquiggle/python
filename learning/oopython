@@ -3,12 +3,15 @@
 #I realized I never actually wrote down my own OOP example
 #in Python so I could have my own example for my notes
 
+from dataclasses import dataclass
+
+@dataclass
 class animal:
-	age = 0
-	size = ''
+	age: int
+	size: str
 
 class dog(animal):
-	name = ''
+	name: str
 	def __init__(self, name, age, size):
 		self.name = name
 		self.age = age
