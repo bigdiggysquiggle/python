@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+
+def decorated(func):
+	def wrapper():
+		out = func()
+		return f'{out}, now with decoration!'
+	return wrapper
+
+@decorated
+def test_phrase():
+	return 'This is a test'
+
+print(test_phrase())
